@@ -6,52 +6,57 @@ import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import { CheckBoxList } from "./CheckboxList";
 import { db } from "../firebase";
-import { collection, addDoc,getDocs, doc,deleteDoc} from "firebase/firestore"; 
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 function InputText() {
   const [todolist, setTodolist] = React.useState([]);
   const [input, setInput] = React.useState("");
-  readFromFirebase
-  React.useEffect(()=>{
-  readFromFirebase()
-}, [])
+  readFromFirebase;
+  React.useEffect(() => {
+    readFromFirebase();
+  }, []);
 
-  const writeToFirebsae = async () => {
+  async function writeToFirebsae() {
     try {
       const docRef = await addDoc(collection(db, "todos"), {
         todo: input,
       });
       console.log("Document written with ID: ", docRef.id);
-      return docRef.id
+      return docRef.id;
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  };
-
-  const readFromFirebase = async()=>{
-    await getDocs(collection(db, "todos"))
-            .then((querySnapshot)=>{
-              const newData = querySnapshot.docs.map((doc)=>{return ({...doc.data(),id:doc.id})})
-              setTodolist(newData)
-            })
   }
-
-  const deleteFromFibase = async(id)=>{
+  async function readFromFirebase() {
+    await getDocs(collection(db, "todos")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+      setTodolist(newData);
+    });
+  }
+  async function deleteFromFibase(id) {
     await deleteDoc(doc(db, "todos", id));
   }
 
   function handleDeleteBtn(index) {
-    deleteFromFibase(todolist[index].id)
-    console.log(todolist[index].id)
-    todolist.splice(index,1)
+    deleteFromFibase(todolist[index].id);
+    console.log(todolist[index].id);
+    todolist.splice(index, 1);
     setTodolist([...todolist]);
   }
 
-  async function AddTodo(todo) {
-    setTodolist([...todolist, {"todo":input,"id":addId}]);
-    const addId=await writeToFirebsae()
+  function AddTodo(todo) {
+    console.log("addd")
+    setTodolist([...todolist, { todo: input, id: addId }]);
+    const addId = writeToFirebsae();
     setInput("");
-    
   }
 
   return (
@@ -79,11 +84,9 @@ function InputText() {
           type="button"
           sx={{ p: "10px" }}
           aria-label="search"
-          onClick={
-            () => {
-              AddTodo(input)
-          }
-          }
+          onClick={() => {
+            AddTodo(input);
+          }}
         >
           <AddIcon />
         </IconButton>
