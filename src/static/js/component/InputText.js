@@ -3,27 +3,57 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
-import {CheckBoxList} from "./CheckboxList"
+import Divider from "@mui/material/Divider";
+import { CheckBoxList } from "./CheckboxList";
+import { db } from "../firebase";
+import { collection, addDoc,getDocs, doc,deleteDoc} from "firebase/firestore"; 
 
 function InputText() {
   const [todolist, setTodolist] = React.useState([]);
-  const [input, setInput] = React.useState(0);
+  const [input, setInput] = React.useState("");
+  readFromFirebase
+  React.useEffect(()=>{
+  readFromFirebase()
+}, [])
 
-  React.useEffect(() => {
-    // action on update of movies
-}, [todolist]);
+  const writeToFirebsae = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "todos"), {
+        todo: input,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      return docRef.id
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
-  function handleDeleteBtn(todolist){
-    alert("input")
-    console.log(todolist)
-    setTodolist([...todolist])
-    alert("finish")
+  const readFromFirebase = async()=>{
+    await getDocs(collection(db, "todos"))
+            .then((querySnapshot)=>{
+              const newData = querySnapshot.docs.map((doc)=>{return ({...doc.data(),id:doc.id})})
+              setTodolist(newData)
+            })
   }
 
-  function AddTodo(todo){
-    setTodolist([...todolist, todo]);
+  const deleteFromFibase = async(id)=>{
+    await deleteDoc(doc(db, "todos", id));
   }
-  
+
+  function handleDeleteBtn(index) {
+    deleteFromFibase(todolist[index].id)
+    console.log(todolist[index].id)
+    todolist.splice(index,1)
+    setTodolist([...todolist]);
+  }
+
+  async function AddTodo(todo) {
+    setTodolist([...todolist, {"todo":input,"id":addId}]);
+    const addId=await writeToFirebsae()
+    setInput("");
+    
+  }
+
   return (
     <div>
       <Paper
@@ -40,6 +70,7 @@ function InputText() {
           sx={{ ml: 1, flex: 1 }}
           placeholder="Add TodoList"
           inputProps={{ "aria-label": "search google maps" }}
+          value={input}
           onChange={(e) => {
             setInput(e.target.value);
           }}
@@ -48,12 +79,17 @@ function InputText() {
           type="button"
           sx={{ p: "10px" }}
           aria-label="search"
-          onClick={() => {AddTodo(input)}}
+          onClick={
+            () => {
+              AddTodo(input)
+          }
+          }
         >
           <AddIcon />
         </IconButton>
       </Paper>
-      <CheckBoxList todos={todolist} handleDeleteBtn={handleDeleteBtn}/>
+      <Divider sx={{ margin: "10px" }} />
+      <CheckBoxList todos={todolist} handleDeleteBtn={handleDeleteBtn} />
     </div>
   );
 }

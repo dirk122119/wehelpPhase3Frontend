@@ -4,8 +4,8 @@
         [
           "babel-plugin-direct-import",
           {
-            "modules": [ "@mui/lab","@mui/system", "@mui/material", "@mui/icons-material"]
+            "modules": [ "@mui/lab","@mui/joy","@mui/system", "@mui/material", "@mui/icons-material"]
           }
-        ]
+        ],"@emotion"
       ]
   }

@@ -1,12 +1,13 @@
 import * as React from "react";
 import {MyNavbar} from "../component/MyNavbar"
 import {ButtonForTodolist} from "../component/ButtonForTodolist"
+import {HomeImg} from "../component/HomeImg"
 
 function Home(){
     return (<div>
         <MyNavbar/>
+        <HomeImg/>
         <ButtonForTodolist/>
-        <CheckBoxList todos={[0,2,4,6]}/>
         </div>)
 }
 export{Home}

@@ -1,7 +1,6 @@
 import * as React from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter, BrowserRouter, Routes, Route } from "react-router-dom";
-import App from "./app";
 import { Home } from "../page/home";
 import {TodoList} from "../page/todolist"
 

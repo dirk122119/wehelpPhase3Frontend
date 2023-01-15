@@ -9,7 +9,8 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
-
+  devtool: 'eval-source-map',
+  watch:true,
   module: {
     rules: [
       {
@@ -26,6 +27,13 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(jpe?g|png|svg)$/i,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'images',
+        }
+      }
     ],
   },
   //DevServer

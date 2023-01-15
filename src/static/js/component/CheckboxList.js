@@ -25,19 +25,16 @@ function CheckBoxList(props) {
   };
 
   function handleDeleteBtn(index){
-    alert("delete")
-    props.todos.splice(index,1)
-    console.log(props.todos)
-    props.handleDeleteBtn(props.todos)
+    props.handleDeleteBtn(index)
   }
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       { 
         props.todos.map((value,index) => {
         const labelId = `checkbox-list-label-${index}`;
         return (
           <ListItem
-            key={value}
+            key={value.todo}
             secondaryAction={
               <IconButton edge="end" aria-label="comments" onClick={()=>
                 handleDeleteBtn(index)
@@ -61,7 +58,7 @@ function CheckBoxList(props) {
                   inputProps={{ "aria-labelledby": labelId }}
                 />
               </ListItemIcon>
-              <ListItemText sx={(checked.indexOf(index) !== -1)?{textDecoration: 'line-through'}:{textDecoration: 'none'}}id={labelId} primary={`Task ${index+1} : ${value} `} />
+              <ListItemText sx={(checked.indexOf(index) !== -1)?{textDecoration: 'line-through'}:{textDecoration: 'none'}}id={labelId} primary={`Task ${index+1} : ${value.todo} `} />
             </ListItemButton>
           </ListItem>
         );
