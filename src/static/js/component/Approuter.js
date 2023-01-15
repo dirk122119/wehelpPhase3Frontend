@@ -7,7 +7,7 @@ import {TodoList} from "../page/todolist"
 function Approuter() {
   return (
     <React.StrictMode>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/todolist" element={<TodoList/>}>
@@ -15,7 +15,7 @@ function Approuter() {
             <Route path="dashboard" element={<div>dashboard</div>} />
           </Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </React.StrictMode>
   );
 }
