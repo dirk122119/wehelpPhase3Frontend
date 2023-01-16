@@ -6,7 +6,7 @@ module.exports = {
   entry: "./src/index.js",
   // 輸出
   output: {
-    filename: "bundle.js",
+    filename: "main.js",
     path: path.resolve(__dirname, "dist"),
   },
   devtool: 'eval-source-map',
@@ -39,7 +39,6 @@ module.exports = {
   //DevServer
   devServer: {
     static: "./dist",
-  
   },
   resolve: {
     alias: {

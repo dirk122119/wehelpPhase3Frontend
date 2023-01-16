@@ -16,11 +16,11 @@ function ButtonForTodolist() {
       >
         <Button
           component={Link}
-          to="/todolist"
+          to="/list"
           variant="contained"
           
         >
-          點我進入App
+          點我進入App2
         </Button>
       </Grid>
     </Container>
